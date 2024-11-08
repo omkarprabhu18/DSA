@@ -1,0 +1,24 @@
+// Online C++ compiler to run C++ program online
+#include <iostream>
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main() {
+    // Write C++ code here
+        int arr[] = {5,2,-1,2,-3,-1,-5,4,-1,4,3,-2,-4,-5};
+        int size = sizeof(arr)/sizeof(int);
+        
+        int max = arr[size - 1];
+        int leaders[100] = {0};
+        int j = 0;
+        for(int i = 0;i < size; i++) {
+            if(arr[size-1-i] >= max) {
+                max = arr[size-1-i];
+                leaders[j] = max;
+                printf("%d ",leaders[j]);
+                j++;
+            }
+         }
+         return 0;
+}

@@ -1,0 +1,33 @@
+// Online C++ compiler to run C++ program online
+#include <iostream>
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main() {
+    // Write C++ code here
+        int arr[] = {24439, 32155, 6823, 9669, 17306, 15041, 30921, 21483};
+        int size = sizeof(arr)/sizeof(int);
+    
+        int max = arr[0];
+        int sec_max = 0;
+        int flag = 0;
+        
+        for(int i = 0;i < size; i++) {
+            if(arr[i] > max) {
+                sec_max = max;
+                max = arr[i];
+                flag = 1;
+            }
+            else if(arr[i] > sec_max && arr[i] != max) { 
+                sec_max = arr[i]; 
+                flag = 1;
+            }
+         }
+         
+         if(flag) {
+            printf("Max Value is %d ", max);
+            printf("Second Max Value is %d ", sec_max);
+         }
+    return 0;
+}

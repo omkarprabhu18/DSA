@@ -1,49 +1,60 @@
-// Online C++ compiler to run C++ program online
-#include <iostream>
 #include <bits/stdc++.h>
-#include <algorithm>
-
 using namespace std;
 
-int getIndex(int * arr, int size, int target) {
-        int *L = arr;
-        int *H = arr + size - 1;
-        int i = 0;
-        while((H-L) >= 1) {
-            if(*H == target) {
-                return H-arr;
-            }
-            if(*L == target) {
-                return L-arr;
-            }
-            if(*(L + (H-L)/2) == target) {
-                return L + (H-L)/2 - arr;
-            }
-            if(*(L + (H-L)/2) < *H) {
-                if(target < *H)
-                    L = L + (H-L)/2;
-                else
-                    H = L + (H-L)/2;
-            }
-            else {
-                if(target > *L)
-                    H = L + (H-L)/2;
-                else
-                    L = L + (H-L)/2;
-            }
+int pivotedSearch(vector<int>& arr, int key) {
+  
+    // Initialize two pointers, low and high, at the start
+    // and end of the array.
+    int low = 0, high = arr.size() - 1;
+
+    while (low <= high) {
+        int mid = low + (high - low) / 2;
+
+        // Case 1: Find key
+        if (arr[mid] == key)
+            return mid;
+
+        // Case 2: Left half is sorted
+        if (arr[mid] >= arr[low]) {
+          
+            // If the key lies within this sorted half,
+            // move the high pointer to mid - 1.
+            if (key >= arr[low] && key < arr[mid])
+                high = mid - 1;
+          
+            // Otherwise, move the low pointer to mid + 1.
+            else
+                low = mid + 1;
         }
-        return -1;
+      
+        // Case 3: Right half is sorted
+        else {
+          
+            // If the key lies within this sorted half,
+            // move the low pointer to mid + 1.
+            if (key > arr[mid] && key <= arr[high])
+                low = mid + 1;
+          
+            // Otherwise, move the high pointer to mid - 1.
+            else
+                high = mid - 1;
+        }
+    }
+
+    return -1; // Key not found
 }
 
+// Driver code
 int main() {
-    // Write C++ code here
-        int arr[] = {9,10,11,12,13,14,1,2,3,4,5,6,7,8};
-        
-        int size = sizeof(arr)/sizeof(int);
-        int target = 9;
-        int index = getIndex(arr,size,target);
-        printf("Index of target %d is %d",arr[index],index);
-        
-        
+    vector<int> arr1 = {9,10,11,12,13,14};
+    int key1 = 12;
+    int result1 = pivotedSearch(arr1, key1);
+    cout << result1 << endl; // Output: 4
+
+    vector<int> arr2 = {4, 5, 6, 7, 0, 1, 2};
+    int key2 = 3;
+    int result2 = pivotedSearch(arr2, key2);
+    cout << result2 << endl; // Output: -1
+
     return 0;
 }

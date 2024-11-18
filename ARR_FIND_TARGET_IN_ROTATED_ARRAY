@@ -9,7 +9,7 @@ int getIndex(int * arr, int size, int target) {
         int *L = arr;
         int *H = arr + size - 1;
         int i = 0;
-        while((H-L) > 1) {
+        while((H-L) >= 1) {
             if(*H == target) {
                 return H-arr;
             }

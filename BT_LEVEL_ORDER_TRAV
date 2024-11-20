@@ -19,26 +19,16 @@ struct TreeNode {
    TreeNode_t *right;
  };
 
-void levelOrdTrav (TreeNode_t *node) {
-     uint32_t level = 0;
-     int i = pow(2,level);
-     while (i) {
-        if(!level) 
-            node_q.push(node);
-        node = node_q.front();
-        node_q.pop();
-        if (node != NULL) {
-            printf("%d ",node->value);
-            node_q.push(node->left);
-            node_q.push(node->right);
-        }
-        i--;
-        if(node_q.empty())
-            break;
-        if(!i) {
-            level++;
-            i = pow(2,level);
-        }
+void levelOrdTrav (TreeNode_t *root) {
+     node_q.push(root);
+     while(!node_q.empty()) {
+         TreeNode_t *node = node_q.front();
+         node_q.pop();
+         printf(" %d ",node->value);
+         if(node->left != NULL) 
+             node_q.push(node->left); 
+         if(node->right != NULL)
+             node_q.push(node->right);
      }
 } 
 
@@ -89,6 +79,9 @@ int main() {
     addNode(node,54);
     addNode(node,53);
     addNode(node,81);
+    addNode(node,2);
+    addNode(node,24);
+    addNode(node,52);
 
     levelOrdTrav(node);
 

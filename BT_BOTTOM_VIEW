@@ -38,7 +38,7 @@ void levelOrdTrav (TreeNode_t *root) {
      printf("\n");
 } 
 
-void distanceFromMid (TreeNode_t *node) {
+void bottomView (TreeNode_t *node) {
      int non_zero = 0;
      int level = 0;
    
@@ -131,7 +131,7 @@ int main() {
     
     
     levelOrdTrav(node);
-    distanceFromMid(node);
+    bottomView(node);
 
     for (auto a : bt_index_value) {
         cout << "Key: " << a.first <<

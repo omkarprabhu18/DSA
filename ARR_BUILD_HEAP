@@ -9,10 +9,10 @@ void heapify(int *arr, int size, int i) {
     int l = 2*i + 1;
     int r = 2*i + 2;
     
-    if(l <= size && arr[smallest] > arr[l] ) {
+    if(l <= size - 1 && arr[smallest] > arr[l] ) {
         smallest = l;
     }
-    if (r <= size && arr[smallest] > arr[r]) {
+    if (r <= size - 1 && arr[smallest] > arr[r]) {
         smallest = r;
     }
     if(smallest != i) {

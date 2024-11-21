@@ -1,0 +1,59 @@
+/******************************************************************************
+
+C++ function merge two sorted array 
+
+*******************************************************************************/
+#include <iostream>
+#include <vector>
+#include <bits/stdc++.h>
+
+using namespace std;
+
+std::vector<int> mergeArrays(const std::vector<int> &arr1, const std::vector<int> &arr2) {
+    int i = 0;
+    int j = 0;
+    vector <int> res;
+    int size1 = arr1.size();
+    int size2 = arr2.size();
+   
+    while(1) {
+        if(arr1[i] <= arr2[j]) { 
+            res.push_back(arr1[i]);
+            i++;
+        }
+        else {
+            res.push_back(arr2[j]);
+            j++;
+        }
+        if(i >= size1) 
+            break;
+        if(j >= size2) 
+            break;
+    }
+    if(i >= size1) { 
+        while(j < size2) {
+            res.push_back(arr2[j]);
+            j++;
+        }
+    }
+    else {
+        while(i < size1) {
+          res.push_back(arr1[i]);
+          i++;
+        }
+    }
+    return res;
+    
+}
+
+int main()
+{
+    vector<int> arr1 = {1,4,7,10};
+    vector<int> arr2 = {2,3,7,11,12};
+    vector<int>res = mergeArrays(arr1,arr2);
+    
+    for(auto a : res)
+        cout<<a<<endl;
+    
+    return 0;
+}

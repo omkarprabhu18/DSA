@@ -1,0 +1,58 @@
+/******************************************************************************
+
+C++ function 
+Unique Ids - arr1
+Profit or loss - arr2
+Calculate Max Profit
+Condition: In case of two same Ids with consecutive indices only maximum to consider
+
+*******************************************************************************/
+#include <iostream>
+#include <vector>
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int calcMaxProfit(const std::vector<int> &arr1, const std::vector<int> &arr2) {
+    int i = 0;
+    int count = arr1.size();
+    int maxProfit = 0;
+    while(count) {
+        if(i == 0) {
+            if(arr2[i] > 0)
+                maxProfit += arr2[i];
+        }
+        if(i > 0) {
+            int maxConsecutive = 0;
+            while(arr1[i] == arr1[i-1] && count > 0) {
+                maxConsecutive = max(arr2[i],arr2[i-1]);
+                count--;
+                i++;
+            }
+            if(maxConsecutive > 0) 
+                maxProfit += maxConsecutive;
+            if(arr1[i] != arr1[i-1] && arr1[i+1] != arr1[i]) {
+                if(arr2[i] > 0) 
+                    maxProfit += arr2[i];
+            }
+        }
+        count--;
+        i++;
+    }
+    return maxProfit;
+    
+}
+
+int main()
+{
+    vector<int> arr1 = {4,2,3,3,1};
+    vector<int> arr2 = {-1,10,10,15,-5};
+    vector<int> arr3 = {1,2,1};
+    vector<int> arr4 = {10,20,30};
+    
+    
+    int maxProfit = calcMaxProfit(arr1,arr2);
+    printf("%d",maxProfit);
+  
+    return 0;
+}

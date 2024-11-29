@@ -1,0 +1,59 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+
+struct TreeNode {
+    int value;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int val) : value(val), left(nullptr), right(nullptr) {}
+};
+
+// Struct to mimic recursive function context
+struct CallContext {
+    TreeNode* node; // Current node being processed
+    bool isReturning; // Tracks whether we are returning from recursion
+    CallContext(TreeNode* n, bool returning) : node(n), isReturning(returning) {}
+};
+
+void inorderMimicRecursive(TreeNode* root) {
+    if (root == nullptr) return;
+
+    stack<CallContext> callStack; // Stack to simulate recursion
+    callStack.push(CallContext(root, false)); // Start with root and not returning yet
+
+    while (!callStack.empty()) {
+        CallContext current = callStack.top(); // Get the top context
+        callStack.pop();
+
+        if (current.node == nullptr) {
+            continue; // Skip null nodes
+        }
+
+        if (current.isReturning) {
+            // Process the node after returning from left subtree
+            cout << current.node->value << " ";
+
+            // Simulate the recursive call to the right subtree
+            callStack.push(CallContext(current.node->right, false));
+        } else {
+            // Simulate recursive call stack behavior:
+            // 1. Push the current node with "returning" state
+            // 2. Push the left subtree for processing
+            callStack.push(CallContext(current.node, true)); // Current node to process later
+            callStack.push(CallContext(current.node->left, false)); // Left subtree
+        }
+    }
+}
+
+int main() {
+    TreeNode* root = new TreeNode(50);
+    root->left = new TreeNode(6);
+    root->right = new TreeNode(70);
+    root->left->left = new TreeNode(3);
+    root->left->right = new TreeNode(7);
+
+    cout << "Mimicking Recursive Inorder Traversal: ";
+    inorderMimicRecursive(root);
+    return 0;
+}

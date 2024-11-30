@@ -1,0 +1,63 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+
+struct TreeNode {
+    int value;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int val) : value(val), left(nullptr), right(nullptr) {}
+};
+
+// Struct to represent recursive function calls
+struct CallContext {
+    TreeNode* node;     // Node being processed
+    bool leftDone;      // Whether the left subtree has been processed
+    bool selfDone;      // Whether the current node itself has been processed
+    CallContext(TreeNode* n) : node(n), leftDone(false), selfDone(false) {}
+};
+
+void inorderMimicRecursionExactly(TreeNode* root) {
+    if (root == nullptr) return;
+
+    stack<CallContext> callStack;
+    callStack.push(CallContext(root)); // Push the initial call
+
+    while (!callStack.empty()) {
+        CallContext& current = callStack.top(); // Access the top of the stack
+
+        if (current.node == nullptr) {
+            // If the node is null, just pop the stack and skip
+            callStack.pop();
+            continue;
+        }
+
+        if (!current.leftDone) {
+            // Simulate recursive call to the left subtree
+            current.leftDone = true;
+            callStack.push(CallContext(current.node->left));
+        } else if (!current.selfDone) {
+            // Process the current node
+            cout << current.node->value << " ";
+            current.selfDone = true;
+
+            // Simulate recursive call to the right subtree
+            callStack.push(CallContext(current.node->right));
+        } else {
+            // Fully processed: left subtree, current node, and right subtree
+            callStack.pop();
+        }
+    }
+}
+
+int main() {
+    TreeNode* root = new TreeNode(50);
+    root->left = new TreeNode(25);
+    root->right = new TreeNode(75);
+    root->right->right = new TreeNode(100);
+    root->right->right->right = new TreeNode(125);
+
+    cout << "Inorder Traversal Mimicking Recursion Exactly: ";
+    inorderMimicRecursionExactly(root);
+    return 0;
+}

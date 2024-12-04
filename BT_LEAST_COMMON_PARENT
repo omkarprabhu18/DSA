@@ -19,21 +19,22 @@ struct TreeNode {
    TreeNode_t *right;
  };
 
-uint32_t least_common_node (TreeNode_t *node, int value1,int value2) {
+TreeNode_t* least_common_node (TreeNode_t *node, int value1,int value2) {
     if(node == NULL) {
-        return -1;
+        return NULL;
     }
     if(node->value == value1 || node->value == value2)
-       return node->value;
+       return node;
     else {
-        int r = least_common_node(node->right,value1,value2);
-        int l = least_common_node(node->left,value1,value2);
-        if (l != -1 && r !=-1) 
-            return node->value;  
-        else if (r < 0)
+        TreeNode_t* r = least_common_node(node->right,value1,value2);
+        TreeNode_t* l = least_common_node(node->left,value1,value2);
+        
+        if (l != NULL && r != NULL) 
+            return node;     
+        if(l != NULL)
             return l;
-        else if (l < 0)
-            return r;  
+        if(r != NULL)
+            return r;
     }
 }
 
@@ -86,8 +87,8 @@ int main() {
     addNode(node,81);
     addNode(node,2);addNode(node,22);//addNode(node,24);
 
-    uint32_t h = least_common_node(node,23,4);
-    printf("Height = %d",h);
+    TreeNode_t* h = least_common_node(node,4,85);
+    printf("Height %d",h->value);
 
     return 0;
     

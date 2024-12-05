@@ -1,0 +1,109 @@
+// Online C++ compiler to run C++ program online
+// Online C compiler to run C program online
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <iostream>
+#include <queue>
+#include <math.h>
+#include <map>
+
+
+using namespace std;
+
+typedef struct TreeNode TreeNode_t;
+
+queue<TreeNode_t *> node_q;
+
+struct TreeNode {
+   int value;
+   int dir;
+   TreeNode_t *left;
+   TreeNode_t *right;
+};
+
+map<int, int> bt_index_value; 
+
+void levelOrdTrav (TreeNode_t *root) {
+     node_q.push(root);
+     while(!node_q.empty()) {
+         TreeNode_t *node = node_q.front();
+         node_q.pop();
+         printf(" %d ",node->value);
+         if(node->left != NULL) 
+             node_q.push(node->left); 
+         if(node->right != NULL)
+             node_q.push(node->right);
+     }
+     printf("\n");
+} 
+
+int numberofOccurences(TreeNode_t *node, int value) {
+   if(node == NULL) {
+       return 0;
+   }
+  
+    int l = numberofOccurences(node->left,value);
+    int r = numberofOccurences(node->right,value);
+    
+    if(node->value == value) 
+        return l+r+1;
+    else 
+        return l+r;
+   
+} 
+
+TreeNode_t * addNode(TreeNode_t *node, uint32_t value) {
+    if(value == node->value)
+        return node;
+    if(value < node->value) {
+             if(node->left==NULL) {
+                node->left = (TreeNode_t *) malloc(sizeof(TreeNode_t));
+                node = node->left;
+                node->value = value;
+                node->left = NULL;
+                node->right = NULL;
+                return node;
+             } else {
+                node = node->left;
+             }
+    }
+    else if(value > node->value) {
+             if(node->right==NULL) {
+                node->right = (TreeNode_t *) malloc(sizeof(TreeNode_t));
+                node = node->right;
+                node->value = value;
+                node->left = NULL;
+                node->right = NULL;
+                return node;
+             } else {
+                node = node->right;
+             }   
+    }
+    addNode(node, value);
+}
+
+int main() {
+    // Write C code here
+    printf("Try programiz.pro");
+    TreeNode_t *node = (TreeNode_t *) malloc(sizeof(TreeNode_t));
+    node->value = 20;
+    node->left = (TreeNode_t *) malloc(sizeof(TreeNode_t));
+    node->right = (TreeNode_t *) malloc(sizeof(TreeNode_t));
+    node->left->value = 8;
+    node->right->value = 22;
+    node->left->left = (TreeNode_t *) malloc(sizeof(TreeNode_t));
+   
+    node->right->left = (TreeNode_t *) malloc(sizeof(TreeNode_t));
+    node->left->left->value = 22;
+    
+    node->right->left->value = 22;
+    node->right->left->left = (TreeNode_t *) malloc(sizeof(TreeNode_t));
+    node->right->left->left->value = 10;
+    
+    levelOrdTrav(node);
+    int h = numberofOccurences(node,22);
+    printf("Number of Occurences of a value in a Btree is %d",h);
+    
+    return 0;
+}

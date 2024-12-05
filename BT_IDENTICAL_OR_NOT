@@ -1,0 +1,113 @@
+// Online C++ compiler to run C++ program online
+// Online C compiler to run C program online
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <iostream>
+#include <queue>
+#include <math.h>
+
+using namespace std;
+
+typedef struct TreeNode TreeNode_t;
+
+queue<TreeNode_t *> node_q;
+
+struct TreeNode {
+   uint32_t value;
+   TreeNode_t *left;
+   TreeNode_t *right;
+ };
+
+int isIdentical (TreeNode_t *node1, TreeNode_t *node2) {
+    if(node1 == NULL && node2 == NULL) {
+        return 1;
+    }
+    if(node1 == NULL)
+       return -1;
+    if(node2 == NULL)
+       return -1;
+    if(node1->value != node2->value)
+        return -1;
+    else {
+        int r = isIdentical(node1->right,node2->right);
+        int l = isIdentical(node1->left,node2->left);
+        if(r == -1 || l == -1)
+            return -1;
+    
+    }
+}
+
+TreeNode_t * addNode(TreeNode_t *node, uint32_t value) {
+    if(value == node->value)
+        return node;
+    if(value < node->value) {
+             if(node->left==NULL) {
+                node->left = (TreeNode_t *) malloc(sizeof(TreeNode_t));
+                node = node->left;
+                node->value = value;
+                node->left = NULL;
+                node->right = NULL;
+                return node;
+             } else {
+                node = node->left;
+             }
+    }
+    else if(value > node->value) {
+             if(node->right==NULL) {
+                node->right = (TreeNode_t *) malloc(sizeof(TreeNode_t));
+                node = node->right;
+                node->value = value;
+                node->left = NULL;
+                node->right = NULL;
+                return node;
+             } else {
+                node = node->right;
+             }   
+    }
+    addNode(node, value);
+}
+
+int main() {
+    // Write C code here
+    TreeNode_t *node = (TreeNode_t *) malloc(sizeof(TreeNode_t));
+    node->value = 50;
+    node->left = NULL;
+    node->right = NULL;
+
+    addNode(node,6);
+    addNode(node,83);
+    addNode(node,3);
+    addNode(node,4);
+    addNode(node,23);
+    addNode(node,53);
+    addNode(node,54);
+    addNode(node,85);
+    addNode(node,81);
+    addNode(node,2);addNode(node,22);//addNode(node,24);
+    
+    TreeNode_t *node1 = (TreeNode_t *) malloc(sizeof(TreeNode_t));
+    node1->value = 50;
+    node1->left = NULL;
+    node1->right = NULL;
+
+    addNode(node1,6);
+    addNode(node1,83);
+    addNode(node1,3);
+    addNode(node1,4);
+    addNode(node1,23);
+    addNode(node1,53);
+    addNode(node1,54);
+    addNode(node1,85);
+    addNode(node1,81);
+    addNode(node1,2);addNode(node1,22);//addNode(node1,24);
+
+    int h = isIdentical(node,node1);
+    if(h == 1)
+        printf(" Identical");
+    else
+        printf(" Not Identical");
+
+    return 0;
+    
+}

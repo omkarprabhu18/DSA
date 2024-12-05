@@ -1,0 +1,67 @@
+// Online C++ compiler to run C++ program online
+// Online C compiler to run C program online
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <iostream>
+#include <queue>
+#include <math.h>
+#include <stack>
+
+using namespace std;
+
+class TreeNode_t {
+    public:
+        int value;
+        TreeNode_t* left;
+        TreeNode_t* right;
+        TreeNode_t (int x) {
+            value = x;
+            left = nullptr;
+            right = nullptr;
+        }
+};
+
+TreeNode_t* isChildrenSum(TreeNode_t *node) {
+    if(node == NULL)
+        return node;
+        
+    TreeNode_t *lNode = isChildrenSum(node->left);
+    TreeNode_t *rNode = isChildrenSum(node->right);  
+    
+    if(lNode == NULL && rNode == NULL)
+        return node;
+    if(lNode == NULL && rNode->value == node->value)
+        return node;
+    if(rNode == NULL && lNode->value == node->value)
+        return node;
+    if(lNode == NULL && rNode->value != node->value)
+        return NULL;
+    if(rNode == NULL && lNode->value != node->value)
+        return NULL;
+    if(lNode->value + rNode->value == node->value) 
+         return node; 
+    else return NULL;
+    
+}
+
+int main() {
+    // Write C code here
+    TreeNode_t* root = new TreeNode_t(35);
+    root->left = new TreeNode_t(20);
+    root->right = new TreeNode_t(15);
+    root->left->left = new TreeNode_t(15);
+    root->left->right = new TreeNode_t(5);
+    root->right->left = new TreeNode_t(10);
+    root->right->right = new TreeNode_t(5);
+    
+    TreeNode_t * resNode = isChildrenSum(root);
+    if(resNode == NULL)
+        printf("Not following Children Sum property");
+    else
+        printf("Following the Children Sum property");
+    //printf(" Height %d Diameter %d",h,d);
+
+    return 0;
+    
+}

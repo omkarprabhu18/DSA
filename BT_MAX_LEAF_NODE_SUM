@@ -1,0 +1,68 @@
+/******************************************************************************
+
+Welcome to GDB Online.
+  GDB online is an online compiler and debugger tool for C, C++, Python, PHP, Ruby, 
+  C#, OCaml, VB, Perl, Swift, Prolog, Javascript, Pascal, COBOL, HTML, CSS, JS
+  Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+#include <stdio.h>
+#include <vector>
+#include <algorithm>
+#include <queue>
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int maxSum = 0;
+
+class TreeNode {
+        public:
+            int value;
+            TreeNode * left;
+            TreeNode * right;
+            int sum;
+        TreeNode(int x) {
+            value = x;
+            left = nullptr;
+            right = nullptr;
+            sum = 0;
+        }
+};
+
+int calculateMaxSum(TreeNode *root) {
+    
+    queue<TreeNode*> q;
+    if(root != nullptr) {
+        root->sum = root->value;
+        q.push(root);
+    }
+    while(!q.empty()) {
+        TreeNode* node = q.front();
+        q.pop();
+        if(node->left == nullptr && node->right == nullptr) 
+                maxSum = max(maxSum,node->sum);
+        if(node->left != nullptr) {
+                node->left->sum = node->left->value + node->sum;
+                q.push(node->left);
+        }
+        if(node->right != nullptr) {
+                node->right->sum = node->right->value + node->sum;
+                q.push(node->right);
+        }
+    }
+    return maxSum;
+}
+int main()
+{
+    TreeNode* root = new TreeNode(35);
+    root->left = new TreeNode(10);
+    root->right = new TreeNode(15);
+    root->left->left = new TreeNode(20);
+    root->left->right = new TreeNode(5);
+    root->right->left = new TreeNode(10);
+    root->right->right = new TreeNode(5);
+    printf("Max sum is %d",calculateMaxSum(root));
+
+    return 0;
+}

@@ -1,0 +1,103 @@
+// Online C++ compiler to run C++ program online
+// Online C compiler to run C program online
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <iostream>
+#include <queue>
+#include <math.h>
+
+using namespace std;
+
+typedef struct TreeNode TreeNode_t;
+
+queue<TreeNode *> node_q;
+vector<TreeNode *> ancestors;
+
+class TreeNode {
+        public:
+            int value;
+            TreeNode * left;
+            TreeNode * right;
+            int sum;
+        TreeNode(int x) {
+            value = x;
+            left = nullptr;
+            right = nullptr;
+            sum = 0;
+        }
+};
+
+TreeNode* least_common_node (TreeNode *node, int value1,int value2) {
+    if(node == NULL) {
+        return NULL;
+    }
+    else {
+        TreeNode* r = least_common_node(node->right,value1,value2);
+        TreeNode* l = least_common_node(node->left,value1,value2);
+        
+        if (l == NULL && r == NULL && (node->value == value1 || node->value == value2)) 
+            return node;    
+        if (l != NULL && r != NULL) {
+            ancestors.push_back(node);
+            return node;
+        }
+        if (l != NULL && r == NULL)
+            return l;
+        if (r != NULL && l == NULL)
+            return r;
+        return NULL;
+    }
+}
+
+TreeNode * addNode(TreeNode *node, uint32_t value) {
+    if(value == node->value)
+        return node;
+    if(value < node->value) {
+             if(node->left==NULL) {
+                node->left = (TreeNode_t *) malloc(sizeof(TreeNode_t));
+                node = node->left;
+                node->value = value;
+                node->left = NULL;
+                node->right = NULL;
+                return node;
+             } else {
+                node = node->left;
+             }
+    }
+    else if(value > node->value) {
+             if(node->right==NULL) {
+                node->right = (TreeNode_t *) malloc(sizeof(TreeNode_t));
+                node = node->right;
+                node->value = value;
+                node->left = NULL;
+                node->right = NULL;
+                return node;
+             } else {
+                node = node->right;
+             }   
+    }
+    addNode(node, value);
+}
+
+int main() {
+    // Write C code here
+    TreeNode* root = new TreeNode(35);
+    root->left = new TreeNode(65);
+    root->right = new TreeNode(85);
+    root->left->left = new TreeNode(75);
+    root->left->right = new TreeNode(15);
+    root->left->left->left = new TreeNode(10);
+    root->right->left = new TreeNode(55);
+    root->right->right = new TreeNode(45);
+    root->right->right->right = new TreeNode(10);
+    root->right->left->right = new TreeNode(15);
+
+    TreeNode* h = least_common_node(root,10,15);
+    
+    for(auto itr : ancestors)
+        cout << itr->value << " ";
+
+    return 0;
+    
+}

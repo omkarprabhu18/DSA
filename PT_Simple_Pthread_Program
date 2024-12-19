@@ -1,0 +1,29 @@
+#include <stdio.h> 
+#include <stdlib.h> 
+#include <stdint.h>
+#include <thread>
+#include <string.h>
+#include <vector>
+#include <iostream>
+#include <mutex>
+#include <pthread.h>
+
+using namespace std;
+mutex mtx;
+
+void* add(void *) {
+    static int a;
+    mtx.lock();
+    a += 2;
+    printf("Value %d",a);
+    mtx.unlock();
+}
+
+int main() 
+{   
+   pthread_t t1,t2;
+   
+   pthread_create(&t1,NULL,&add,NULL);
+   pthread_join(t1,NULL);
+   
+}

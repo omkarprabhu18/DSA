@@ -1,0 +1,36 @@
+#include <stdio.h> 
+#include <stdlib.h> 
+#include <stdint.h>
+#include <thread>
+#include <string.h>
+#include <vector>
+#include <iostream>
+#include <mutex>
+#include <thread>
+#include <unistd.h>
+
+using namespace std;
+mutex mtx;
+
+void add() {
+    char a = 0xf0;
+    int8_t b = 0xfd;
+    int8_t c = a+b;
+    sleep(2);
+    mtx.lock();
+    printf("Value %d",a);
+    mtx.unlock();
+}
+
+int main() 
+{  
+   int a = 5;
+   int& b = a;
+   int *c = &a;
+   *c = 4;
+   b = 5;
+   int d = a+b;
+   thread t1(add);
+   t1.join();
+   printf("\n%d",d);
+}

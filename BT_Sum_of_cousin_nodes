@@ -1,0 +1,82 @@
+#include<iostream>
+#include<bits/stdc++.h>
+#include<queue>
+#include<stdlib.h>
+
+
+using namespace std;
+
+class TreeNode {
+    public :
+           int value;
+           int broNodeValue;
+           TreeNode* left;
+           TreeNode* right;
+        TreeNode(int x) {
+            value = x;
+            broNodeValue = 0;
+            left = nullptr;
+            right = nullptr;
+        }
+};
+
+TreeNode * sumOfCousins(TreeNode * Node) {
+    
+    queue<TreeNode *> q = {};
+    int currCount = 0;
+    int prevCount = 0;
+    int currlevelSum  = 0;
+    int prevlevelSum  = 0;
+    
+    if(Node != nullptr) {
+        q.push(Node);
+        prevCount = 1;
+        prevlevelSum = Node->value;
+    }
+    
+    while(!q.empty()) {
+        TreeNode * node = q.front();
+        q.pop();
+        node->value = prevlevelSum - node->broNodeValue - node->value;
+        cout << node->value << " ";
+
+        prevCount--;
+        if(node->left != nullptr) {
+            q.push(node->left);
+            if(node->right != nullptr)
+                node->left->broNodeValue = node->right->value;
+            currCount++;
+            currlevelSum += node->left->value;
+        }
+        if(node->right != nullptr) {
+            q.push(node->right);
+            if(node->left != nullptr)
+                node->right->broNodeValue = node->left->value;
+            currCount++;
+            currlevelSum += node->right->value;
+        }
+        if(!prevCount) {
+            prevCount = currCount;
+            prevlevelSum  = currlevelSum;
+            currCount = 0;
+            currlevelSum = 0;
+        }
+    }
+    
+    return Node;
+}
+
+int main() {
+    TreeNode *root = new TreeNode(80);
+    root->left = new TreeNode(65);
+    root->right = new TreeNode(85);
+    root->left->left = new TreeNode(75);
+    root->left->right = new TreeNode(15);
+    root->left->left->left = new TreeNode(10);
+    root->right->left = new TreeNode(55);
+    root->right->right = new TreeNode(45);
+    root->right->right->right = new TreeNode(10);
+    root->right->right->left = new TreeNode(32);
+    root->right->left->right = new TreeNode(15);
+    sumOfCousins(root);
+}

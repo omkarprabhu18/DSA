@@ -1,0 +1,44 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+
+vector<vector<int>> rotateRows(vector<vector<int>> &arr) {
+    int rows = arr.size();
+
+    
+    vector<vector<int>> res(rows);
+
+    
+    for (int i = 0; i < rows; i++) {
+        res[(i + 1) % rows] = arr[i];
+    }
+
+    return res;
+}
+
+int main() {
+    vector<vector<int>> v = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+
+    cout << "Original Matrix:" << endl;
+    for (auto &row : v) {
+        for (auto &val : row) {
+            cout << val << " ";
+        }
+        cout << endl;
+    }
+
+    // Rotate rows of the matrix
+    vector<vector<int>> rotated = rotateRows(v);
+
+    cout << "\nRow-Wise Rotated Matrix:" << endl;
+    for (auto &row : rotated) {
+        for (auto &val : row) {
+            cout << val << " ";
+        }
+        cout << endl;
+    }
+
+    return 0;
+}

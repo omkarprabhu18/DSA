@@ -1,0 +1,123 @@
+#include<stdio.h>
+#include<stdint.h>
+#include<string.h>
+#include<stdlib.h>
+#include <assert.h>
+#include <string.h>
+
+
+int maxArea(int* arr, int size) {
+    int l = 0;
+    int r = size - 1;
+    int maxArea = 0;
+    int tempArea = 0;
+    while(l < r) {
+        tempArea = (arr[l] < arr[r] ? arr[l] : arr[r]) *(r-l);
+        maxArea = maxArea > tempArea ? maxArea : tempArea;
+        if(arr[r] > arr[l]) {
+            int temp = arr[l];
+            l++;
+            while(arr[l] < temp) {
+                l++;
+            }
+        }
+        else if(arr[r] < arr[l]){
+            int temp = arr[r];
+            r--;
+            while(arr[r] < temp) {
+                r--;
+            }
+        }
+        else {
+            int temp = arr[l];
+            l++;
+            r--;
+            while(arr[l] < temp)
+                l++;
+            while(arr[r] < temp)
+                r--;
+        }
+    }
+    return maxArea;
+}
+// Test helper function
+void runTest(int* arr, int size, int expected, const char* testName) {
+    int result = maxArea(arr, size);
+    printf("Test %s: ", testName);
+    if (result == expected) {
+        printf("PASSED ✓ (Expected: %d, Got: %d)\n", expected, result);
+    } else {
+        printf("FAILED ✗ (Expected: %d, Got: %d)\n", expected, result);
+        printf("Array: ");
+        for(int i = 0; i < size; i++) {
+            printf("%d ", arr[i]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    printf("Running maxArea function tests...\n\n");
+
+    // Test 1: Basic case
+    {
+        int arr[] = {1, 8, 6, 2, 5, 4, 8, 3, 7};
+        runTest(arr, 9, 49, "Basic case"); // 7 units * 7 width = 49
+    }
+
+    // Test 2: All same heights
+    {
+        int arr[] = {5, 5, 5, 5, 5};
+        runTest(arr, 5, 20, "Same heights"); // 5 units * 4 width = 20
+    }
+
+    // Test 3: Ascending order
+    {
+        int arr[] = {1, 2, 3, 4, 5};
+        runTest(arr, 5, 6, "Ascending order"); // 2 units * 3 width = 6
+    }
+
+    // Test 4: Descending order
+    {
+        int arr[] = {5, 4, 3, 2, 1};
+        runTest(arr, 5, 6, "Descending order"); // 2 units * 3 width = 6
+    }
+
+    // Test 5: Minimum case
+    {
+        int arr[] = {1, 1};
+        runTest(arr, 2, 1, "Minimum case"); // 1 unit * 1 width = 1
+    }
+
+    // Test 6: Large values
+    {
+        int arr[] = {10000, 1, 1, 1, 10000};
+        runTest(arr, 5, 40000, "Large values"); // 10000 units * 4 width = 40000
+    }
+
+    // Test 7: Valley shape
+    {
+        int arr[] = {5, 3, 1, 3, 5};
+        runTest(arr, 5, 20, "Valley shape"); // 5 units * 4 width = 20
+    }
+
+    // Test 8: Mountain shape
+    {
+        int arr[] = {1, 3, 5, 3, 1};
+        runTest(arr, 5, 6, "Mountain shape"); // 3 units * 2 width = 6
+    }
+
+    // Test 9: Edge case - three elements
+    {
+        int arr[] = {1, 2, 1};
+        runTest(arr, 3, 2, "Three elements"); // 1 unit * 2 width = 2
+    }
+
+    // Test 10: Alternating heights
+    {
+        int arr[] = {1, 3, 1, 3, 1, 3};
+        runTest(arr, 6, 15, "Alternating heights"); // 3 units * 5 width = 15
+    }
+
+    return 0;
+}
